@@ -22,11 +22,16 @@ public class User {
 
     @Column(nullable = false)
     @Size(min = 8,max = 15, message ="비밀번호는 8자 이상 15자 이하만 가능합니다.")
-    @Pattern(regexp = "^[a-zA-Z_0-9]*$", message = "비밀번호는 알파벳 대소문자, 숫자만 사용 가능합니다.")
+    @Pattern(regexp = "^[a-zA-Z_0-9`~!@#$%^&*()+|={};:,.<>/?]*$", message = "비밀번호는 알파벳 대소문자, 숫자, 특수문자만 사용 가능합니다.")
     private String password;
 
-    public User(String username, String password) {
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+    public User(String username, String password, UserRoleEnum role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 }

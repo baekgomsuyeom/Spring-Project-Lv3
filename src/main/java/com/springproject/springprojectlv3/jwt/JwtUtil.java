@@ -1,5 +1,6 @@
 package com.springproject.springprojectlv3.jwt;
 
+import com.springproject.springprojectlv3.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -21,28 +22,28 @@ public class JwtUtil {
     public static final String AUTHORIZATION_HEADER = "Authorization";      // Header KEY 값
     public static final String AUTHORIZATION_KEY = "auth";      // 사용자 권한 값의 KEY
     public static final String BEARER_PREFIX = "Bearer ";       // Token 식별자
-    private static final long TOKEN_TIME = 60 * 60 * 1000L;        // 토큰 만료시간 : 60분     // static 을 추가함
+    private static final long TOKEN_TIME = 60 * 60 * 1000L;        // 토큰 만료시간 : 60분
 
     @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey (application.properties 에 추가해둔 값)
     private String secretKey;       // 그 값을 가져와서 secretKey 변수에 넣는다
-    private static Key key;        // Secret key 를 담을 변수        // static 을 추가함
-    private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;     // 사용할 알고리즘 선택        // static 을 추가함
+    private static Key key;        // Secret key 를 담을 변수
+    private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;     // 사용할 알고리즘 선택
 
     @PostConstruct      // 한 번만 받으면 값을 사용할 때마다, 매번 요청을 새로 호출하는 것을 방지
     public void init() {
-        byte[] bytes = Base64.getDecoder().decode(secretKey);       // Base64 를 디코딩
+        byte[] bytes = Base64.getDecoder().decode(secretKey);
         key = Keys.hmacShaKeyFor(bytes);
     }
 
     /* 2. JWT 토큰 생성 */
-    public static String createToken(String username) {
+    public static String createToken(String username, UserRoleEnum role) {
         Date date = new Date();
 
         // 암호화
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)               // 사용자 식별자값(ID). 여기에선 username 을 넣음
-                        .claim(AUTHORIZATION_KEY, username)     // 사용자 권한 (key, value)
+                        .claim(AUTHORIZATION_KEY, role)     // 사용자 권한 (key, value)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))   // 만료 시간 : 현재시간 date.getTime() + 위에서 지정한 토큰 만료시간(60분)
                         .setIssuedAt(date)                  // 발급일
                         .signWith(key, signatureAlgorithm)  // 암호화 알고리즘 (Secret key, 사용할 알고리즘 종류)
@@ -78,6 +79,6 @@ public class JwtUtil {
 
     /* 5. JWT 토큰에서 사용자 정보 가져오기 */
     public Claims getUserInfoFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();     // body 에 있는 claims 를 가져온다
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 }

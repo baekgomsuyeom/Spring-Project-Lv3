@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Table(name = "board")
@@ -23,10 +26,12 @@ public class Board extends Timestamped {
     @Column(name = "contents", nullable = false, length = 500)
     private String contents;
 
-    // board : user = N : 1 다대일 단방향 연관관계
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)                  // board : user = N : 1 다대일 단방향
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)        // comment : board : N : 1 다대일 양방향
+    private List<Comment> commentList = new ArrayList<>();
 
     // 게시글 작성
     public Board(BoardRequestDto requestDto, User user) {
