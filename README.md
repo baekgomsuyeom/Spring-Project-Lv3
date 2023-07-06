@@ -7,4 +7,4 @@
 ![image](https://github.com/baekgomsuyeom/Spring-Project-Lv3/assets/117441902/99033fa4-21c5-4962-9821-d9d7b8538ea0)
 
 ## 3. ERD
-![image](https://github.com/baekgomsuyeom/Spring-Project-Lv3/assets/117441902/f665fb14-8bb1-459a-8088-9a623ac198e8)
+![image](https://github.com/baekgomsuyeom/Spring-Project-Lv3/assets/117441902/bdc515d7-0ccd-4c9b-836e-5a0cad4b3cb5)
