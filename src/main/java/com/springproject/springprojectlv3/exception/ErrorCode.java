@@ -14,6 +14,9 @@ public enum ErrorCode {
 
     // 토큰이 있으며 유효한 토큰이나, 해당 사용자의 게시글/댓글이 아닌 경우 (즉, 해당 사용자의 토큰이 아닌 경우)
     AUTHORIZATION(HttpStatus.BAD_REQUEST, "작성자만 삭제/수정할 수 있습니다."),
+    NOT_FOUND_COMMENT_OR_AUTHORIZATION(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없거나 작성자만 삭제/수정할 수 있습니다."),
+    NOT_FOUND_BOARD_OR_AUTHORIZATION(HttpStatus.BAD_REQUEST, "게시글을 찾을 수 없거나 작성자만 삭제/수정할 수 있습니다."),
+
 
     // DB 에 이미 존재하는 username 으로 회원가입 요청한 경우
     DUPLICATED_USERNAME(HttpStatus.BAD_REQUEST, "중복된 username 입니다"),
