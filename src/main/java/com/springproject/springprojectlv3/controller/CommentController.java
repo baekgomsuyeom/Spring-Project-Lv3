@@ -29,7 +29,7 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/{boardId}/{cmtId}")
-    public ResponseEntity<MsgResponseDto> deleteComment(@PathVariable Long boardId, @PathVariable Long cmtId, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
-        return ResponseEntity.ok(commentService.deleteComment(boardId, cmtId, commentRequestDto, request));
+    public ResponseEntity<MsgResponseDto> deleteComment(@PathVariable Long boardId, @PathVariable Long cmtId, HttpServletRequest request) {
+        return ResponseEntity.ok(commentService.deleteComment(boardId, cmtId, request));
     }
 }
